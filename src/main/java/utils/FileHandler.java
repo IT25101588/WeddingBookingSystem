@@ -21,3 +21,4 @@ public class FileHandler {
     private static final String VENUE_FILE = BASE_PATH + "venues.txt";
     private static final String BOOKING_FILE = BASE_PATH + "bookings.txt";
     private static final String REVIEW_FILE = BASE_PATH + "reviews.txt";
+
