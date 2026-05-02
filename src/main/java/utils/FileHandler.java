@@ -85,3 +85,66 @@ public class FileHandler {
             return isDeleted;
         } catch (IOException e) { return false; }
     }
+
+    // ==========================================
+    // 3. VENUE MANAGEMENT (Member 3)
+    // ==========================================
+
+    public static boolean saveVenue(Venue venue) {
+        try (FileWriter fw = new FileWriter(VENUE_FILE, true);
+             PrintWriter pw = new PrintWriter(fw)) {
+            pw.println(venue.toFileString());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static List<Venue> getAllVenues() {
+        List<Venue> venueList = new ArrayList<>();
+        File file = new File(VENUE_FILE);
+        if (!file.exists()) return venueList;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 5) {
+                    Venue v = new Venue(data[0], data[1], data[2], Integer.parseInt(data[3]), Double.parseDouble(data[4]));
+                    venueList.add(v);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return venueList;
+    }
+
+    public static boolean updateVenue(Venue updatedVenue) {
+        List<Venue> venues = getAllVenues();
+        boolean isUpdated = false;
+        try (PrintWriter pw = new PrintWriter(new FileWriter(VENUE_FILE, false))) {
+            for (Venue v : venues) {
+                if (v.getVenueId().equals(updatedVenue.getVenueId())) {
+                    pw.println(updatedVenue.toFileString());
+                    isUpdated = true;
+                } else {
+                    pw.println(v.toFileString());
+                }
+            }
+            return isUpdated;
+        } catch (IOException e) { return false; }
+    }
+
+    public static boolean deleteVenue(String venueId) {
+        List<Venue> venues = getAllVenues();
+        boolean isDeleted = false;
+        try (PrintWriter pw = new PrintWriter(new FileWriter(VENUE_FILE, false))) {
+            for (Venue v : venues) {
+                if (v.getVenueId().equals(venueId)) isDeleted = true;
+                else pw.println(v.toFileString());
+            }
+            return isDeleted;
+        } catch (IOException e) { return false; }
+    }
