@@ -156,4 +156,38 @@ public class FileHandler {
             return false;
         }
     }
+    // ==========================================
+    // 4. BOOKING MANAGEMENT (Member 4)
+    // ==========================================
+
+    public static boolean saveBooking(Booking booking) {
+        try (FileWriter fw = new FileWriter(BOOKING_FILE, true);
+             PrintWriter pw = new PrintWriter(fw)) {
+            pw.println(booking.toFileString());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static List<Booking> getAllBookings() {
+        List<Booking> bookingList = new ArrayList<>();
+        File file = new File(BOOKING_FILE);
+        if (!file.exists()) return bookingList;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 6) {
+                    Booking b = new Booking(data[0], data[1], data[2], data[3], data[4], data[5]);
+                    bookingList.add(b);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bookingList;
+    }
 }
