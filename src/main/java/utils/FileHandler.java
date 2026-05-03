@@ -71,7 +71,9 @@ public class FileHandler {
                 }
             }
             return isUpdated;
-        } catch (IOException e) { return false; }
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     public static boolean deleteVendor(String vendorId) {
@@ -83,7 +85,9 @@ public class FileHandler {
                 else pw.println(v.toFileString());
             }
             return isDeleted;
-        } catch (IOException e) { return false; }
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     // ==========================================
@@ -134,7 +138,9 @@ public class FileHandler {
                 }
             }
             return isUpdated;
-        } catch (IOException e) { return false; }
+        } catch (IOException e) {
+            return false;
+        }
     }
 
     public static boolean deleteVenue(String venueId) {
@@ -146,5 +152,8 @@ public class FileHandler {
                 else pw.println(v.toFileString());
             }
             return isDeleted;
-        } catch (IOException e) { return false; }
+        } catch (IOException e) {
+            return false;
+        }
     }
+}

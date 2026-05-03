@@ -22,9 +22,9 @@ public class LoginServlet extends HttpServlet {
         // 1. Check if the password is correct using your EXISTING code
         boolean isValid = FileHandler.validateUser(email, password);
 
-        if (isValid) {
+       if (isValid) {
             // 2. We know the password is right. Now, are they an Admin or a Couple?
-            String role = FileHandler.getUserRole(email);
+           String role = FileHandler.getUserRole(email);
 
             // 3. Create a session to remember them
             HttpSession session = request.getSession();
