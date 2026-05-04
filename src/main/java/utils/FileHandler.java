@@ -190,4 +190,56 @@ public class FileHandler {
         }
         return bookingList;
     }
+    // ==========================================
+    // 5. REVIEW & MODERATION (Member 6)
+    // ==========================================
+
+    public static boolean saveReview(Review review) {
+        try (FileWriter fw = new FileWriter(REVIEW_FILE, true);
+             PrintWriter pw = new PrintWriter(fw)) {
+            pw.println(review.toFileString());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    public static List<Review> getAllReviews() {
+        List<Review> reviews = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(REVIEW_FILE))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length == 5) {
+                    Review review = new Review(data[0], data[1], data[2], Integer.parseInt(data[3]), data[4]);
+                    reviews.add(review);
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("No reviews file found yet. Returning empty list.");
+        }
+        return reviews;
+    }
+
+    public static boolean deleteReview(String reviewId) {
+        List<Review> reviews = getAllReviews();
+        boolean isDeleted = false;
+        try (FileWriter fw = new FileWriter(REVIEW_FILE, false);
+             PrintWriter pw = new PrintWriter(fw)) {
+
+            for (Review r : reviews) {
+                if (r.getReviewId().equals(reviewId)) {
+                    isDeleted = true; // Skip writing this one
+                } else {
+                    pw.println(r.toFileString());
+                }
+            }
+            return isDeleted;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
 }
