@@ -1,10 +1,6 @@
 package utils;
 
-import models.Booking;
-import models.Review;
-import models.User;
-import models.Vendor;
-import models.Venue;
+import models.*;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -22,6 +18,56 @@ public class FileHandler {
     private static final String BOOKING_FILE = BASE_PATH + "bookings.txt";
     private static final String REVIEW_FILE = BASE_PATH + "reviews.txt";
 
+    // ==========================================
+    // 1. USER AUTHENTICATION & MANAGEMENT
+    // ==========================================
+
+    /** Saves any User object (Couple/Admin) to the text file. */
+    public static boolean saveUser(User user) {
+        try (FileWriter fw = new FileWriter(USER_FILE, true);
+             PrintWriter pw = new PrintWriter(fw)) {
+            pw.println(user.toFileString());
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+
+    /** Validates login credentials from the text file. */
+    public static boolean validateUser(String email, String password) {
+        File file = new File(USER_FILE);
+        if (!file.exists()) return false;
+
+        try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                String[] data = line.split(",");
+                if (data.length >= 4 && data[2].equalsIgnoreCase(email) && data[3].equals(password)) {
+                    return true;
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+    /** Retrieves the role (Admin/Couple) based on the email. */
+    public static String getUserRole(String email) {
+        try (BufferedReader br = new BufferedReader(new FileReader(USER_FILE))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                if (line.contains(email)) {
+                    if (line.toLowerCase().contains("admin")) return "Admin";
+                    else return "Couple";
+                }
+            }
+        } catch (Exception e) {
+            System.out.println("Error finding role: " + e.getMessage());
+        }
+        return "Couple";
+    }
 
     // ==========================================
     // 2. VENDOR MANAGEMENT (Member 2)
