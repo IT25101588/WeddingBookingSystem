@@ -8,6 +8,7 @@
         return; // This stops the rest of the HTML from loading!
     }
 %>
+
 <!DOCTYPE html>
 <html>
 <head>
