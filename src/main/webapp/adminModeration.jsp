@@ -76,5 +76,6 @@
         <a href="dashboard.jsp" class="btn btn-outline-light px-4">← Back to Dashboard</a>
     </div>
 </div>
+<script src="heart-cursor.js"></script>
 </body>
 </html>

@@ -92,6 +92,6 @@
         <a href="index.jsp" class="text-light opacity-50 text-decoration-none small">← Back to Home</a>
     </div>
 </div>
-
+<script src="heart-cursor.js"></script>
 </body>
 </html>

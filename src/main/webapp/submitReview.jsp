@@ -74,5 +74,6 @@
         <a href="userDashboard.jsp" class="btn btn-outline-light w-100 py-2">Cancel</a>
     </form>
 </div>
+<script src="heart-cursor.js"></script>
 </body>
 </html>
